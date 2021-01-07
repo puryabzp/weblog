@@ -1,0 +1,79 @@
+{% extends 'base/base.html'%}
+{% load static %}
+{% block selfstyle %}<link rel="stylesheet" href="{% static 'css/register.css' %}">{% endblock %}
+{% block title %}
+Register
+{% endblock %}
+{% block body %}
+
+
+    {% if form.errors %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert" id="alert">
+                        <strong>{{ form.errors}}</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close" id="close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+    {% endif %}
+    <div class="container h-100 w-100">
+            <div class="row h-100 w-100 d-flex justify-content-center align-items-center">
+                <div class="row col-8  p-0 m-0 h-50 w-auto" style="box-shadow: 5px 10px #888888;" >
+                    <div class="col-6  p-0 m-0 d-flex justify-content-center align-items-center flex-column bg-secondary">
+                        <img src="https://www.digicert.com/account/images/login-shield.png" style="width: 80%;height: auto">
+
+
+
+
+
+                    </div>
+                    <div class="col-6 bg-primary p-0 m-0 d-flex justify-content-center align-items-center flex-column">
+                        <h3 style="color: white">ثبت نام</h3>
+                        <form action="{% url 'register' %}" method="post" style="width: 80%">
+                            {% csrf_token %}
+                            <input class="form-control mt-3 mb-3" type="text" name="email" placeholder="E-mail" style="width: 100%"  />
+                            <input class="form-control mt-3 mb-3" type="text" name="full_name" placeholder="Full Name" style="width: 100%" />
+                            <input class="form-control mt-3 mb-3"  type="password" name="password" placeholder="Password" style="width: 100%" />
+                            <input class="form-control mt-3 mb-3" type="password" name="password2" placeholder="Retype password" style="width: 100%" />
+                            <button type="submit" class="btn btn-success mb-2 w-100">ورود</button>
+
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+    </div>
+
+
+
+
+
+
+
+{% endblock %}
+{% block javascript %}
+
+<script>
+            $(document).ready(function (){
+                $('#close').click(function (){
+                        $('#alert').fadeOut()
+
+                })
+            })
+
+</script>
+{% endblock %}
+
+
+{##}
+{##}
+{#<h1>ایجاد حساب کاربری</h1>#}
+{##}
+{#                        <input type="text" name="email" placeholder="E-mail" />#}
+{##}
+{#                        <input type="text" name="full_name" placeholder="Full Name" />#}
+{#                        <input type="password" name="password" placeholder="Password" />#}
+{#                        <input type="password" name="password2" placeholder="Retype password" />#}
+{#                         <div class="invalid-tooltip bg-danger">Example invalid feedback text</div>#}
+{##}
+{#                        <button type="submit" class="btn btn-primary mb-2">ثبت نام کن!</button>#}

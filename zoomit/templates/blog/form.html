@@ -1,0 +1,62 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block selfstyle %}
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock %}
+{% block title %}Login Page
+{% endblock %}
+{% block body %}
+
+    {% if form.errors %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert" id="alert">
+                        <strong>{{ form.errors}}</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close" id="close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+    {% endif %}
+    <div class="container h-100 w-100" >
+            <div class="row h-100 w-100 d-flex justify-content-center align-items-center">
+                <div class="row col-8 bg-danger p-0 m-0 h-50 w-auto" style="box-shadow: 5px 10px #888888;">
+                    <div class="col-6 bg-dark p-0 m-0 d-flex justify-content-center align-items-center flex-column">
+
+                        <h3>ورود</h3>
+                        <button class="btn btn-primary mb-3 w-50"><i class="fab fa-facebook-f pt-1"></i></button>
+                        <button class="btn btn-info mb-3 w-50"><i class="fab fa-twitter pt-1"></i></button>
+                        <button class="btn btn-danger mb-3 w-50"><i class="fab fa-google-plus-g pt-1"></i> </button>
+
+
+
+
+                    </div>
+                    <div class="col-6 bg-success p-0 m-0 d-flex justify-content-center align-items-center flex-column" style="box-sizing: border-box">
+                        <h3>ورود</h3>
+                        <form action="{% url 'login' %}" method="post" style="width: 80%">
+                            {% csrf_token %}
+                            <input class="form-control w-100 mb-3"  type="text" name="username" placeholder="username">
+                            <input class="form-control w-100 mb-3" type="password" name="password" placeholder="password">
+                            <button type="submit" class="btn btn-primary mb-3 w-100">ورود <i class="fas fa-sign-in-alt"></i></button>
+                            <a href="{% url 'register' %}" style="display: block;color: white;text-decoration: none;text-align: center">همین حالا ثبت نام کن!</a>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+    </div>
+
+
+{% endblock %}
+{% block javascript %}
+
+<script>
+            $(document).ready(function (){
+                $('#close').click(function (){
+                        $('#alert').fadeOut()
+
+                })
+            })
+
+
+</script>
+{% endblock %}

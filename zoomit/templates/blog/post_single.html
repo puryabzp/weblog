@@ -1,0 +1,278 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+
+{% block title %} zoomit || {{ post.title }}{% endblock %}
+{% block body %}
+    <div class="container">
+        <div class="row w-100 h-100 m-0 p-0">
+            <div class="col-12 bg-danger p-0 m-0">
+                <img class="w-100" src="https://cdn01.zoomit.ir/2020/11/banner-huawei-y9a-970x250-zoomit-2.gif">
+
+            </div>
+            <div class="d-none d-lg-block col-3 m-0 p-0">
+                <img class="mt-2"
+                     src="https://cdn01.zoomit.ir/2020/11/banner-xvision-campain-rang-500x250px-s-990904.gif"
+                     style="width: 100%; height: 500px;">
+                <img class="mt-2" src="https://cdn01.zoomit.ir/2020/9/aminsahm.gif" style="width: 100%;height: 250px;">
+                <img class="mt-2" src="https://cdn01.zoomit.ir/2020/10/banner-nexfon-300.250.gif"
+                     style="width: 100%;height: 250px;">
+                <img class="mt-2" src="https://cdn01.zoomit.ir/2020/11/banner-cyber-monday-egard-300x250.gif"
+                     style="width: 100%;height: 250px;">
+                <img class="mt-2" src="https://cdn01.zoomit.ir/2020/11/banner-cyber-monday-egard-300x250.gif"
+                     style="width: 100%;height: 250px;">
+                <img class="mt-2" src="https://cdn01.zoomit.ir/2020/11/banner-cyber-monday-egard-300x250.gif"
+                     style="width: 100%;height: 250px;">
+
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 d-flex flex-column m-0 p-2">
+                <br>
+                <br>
+                <div>
+                    <span>دسته بندی: </span>
+                    <a href="#" style="color: #4e555b;text-decoration: none">{{ post.category }}</a>
+                </div>
+
+                <br>
+
+                <span>عنوان:</span>
+                <h3>{{ post.title }}</h3>
+                {#        <img src="{{ post.author.avatar.url }}" style="border-radius: 50%; width: 30px; height: 30px;">#}
+
+                {% if post_setting.author %}
+                    <div>
+                        <p style="display: inline;">نویسنده:</p><a
+                            href="{% url 'authors_posts' post.author.full_name %}"
+                            style="display: inline;color: #4e555b;text-decoration: none"> {{ post.author.full_name }}</a>
+                    </div>
+                {% endif %}
+
+                <p>{{ post.create_at }}</p>
+                <img src="{{ post.image.url }}" class="mx-auto d-block" style="width: 100%; height:auto;">
+                <div class="btn-group mt-2 ml-1 d-flex flex-row-reverse mb-2" role="group" aria-label="Basic example">
+                    <button type="button" class="btn btn-secondary bg-primary">Telegram <i
+                            class="fab fa-telegram-plane"></i></button>
+                    <button type="button" class="btn btn-secondary bg-success">WhatsApp <i class="fab fa-whatsapp"></i>
+                    </button>
+                    <button type="button" class="btn btn-secondary bg-info">Twitter <i class="fab fa-twitter"></i>
+                    </button>
+                </div>
+                <p> {{ post.content }} </p>
+
+                <div>
+                    <span class="badge badge-danger">منبع</span>
+                    <a href="zoomit.ir" class="label label-default bg-dark" target="_blank" style="color: cornsilk;">این
+                        یک تست است</a>
+                </div>
+                <br>
+                <div class="d-flex flex-column">
+                    <p style="text-decoration: underline red;">بیشتر بخوانید</p>
+                    <hr>
+                    <a href="dfdfdf" style="color: red;text-decoration: none;">دریافت کد مالیاتی برای دارندگان درگاه‌
+                        پرداخت الزامی شد</a>
+                    <a href="dfdfdf" style="color: red;text-decoration: none;">دلیل شکست‌ مداوم آمازون در صنعت ساخت
+                        بازی‌ ویدیویی</a>
+                    <a href="dfdfdf" style="color: red;text-decoration: none;">دلیل شکست‌ مداوم آمازون در صنعت ساخت
+                        بازی‌ ویدیویی</a>
+                    <a href="dfdfdf" style="color: red;text-decoration: none;">دلیل شکست‌ مداوم آمازون در صنعت ساخت
+                        بازی‌ ویدیویی</a>
+                </div>
+                <div style="text-align: center;padding-top: 115px;box-sizing: border-box;">
+                <div class="d-flex flex-row">
+                    <h5 style="text-align: right; direction: rtl;">تعداد دیدگاه ها :   </h5><h5 id="comment_count">{{ post.comments.count }}</h5>
+                </div>
+                    {% if post_setting.allow_discussion %}
+
+                        {% if request.user.is_authenticated %}
+
+
+{#                            <form class="w-100" action="{% url 'comment_create' %}" method="post"#}
+{#                                  style="color: transparent">#}
+{#                                {% csrf_token %}#}
+{#                                {{ form }}#}
+{#                                <input type="hidden" name="post" value="{{ post.id }}">#}
+{#                                <br>#}
+{#                                <button class="btn btn-primary w-100" type="submit">ارسال نظر</button>#}
+{#                                <br>#}
+{#                                <hr>#}
+{#                            </form>#}
+                            <div class="w-100 p-0 m-0">
+                            <textarea class="p-1" rows="8" style="direction: rtlک height: 213px; width:333px;" id="content"></textarea>
+                            <button class="btn btn-primary w-100" onclick="create_comment({{ post.id }},$('#content').val())">ارسال نظر</button>
+                            </div>
+
+
+                        {% else %}
+                            <div class="d-flex flex-column mb-3">
+                                <textarea rows="8"
+                                          style="text-align: center;direction: rtl;height: 213px; width:333px;margin: auto"
+                                          disabled>جهت ارسال دیدگاه خود بایستی وارد حساب کاربری خود شوید</textarea>
+                                <br>
+                                <a href="{% url 'login' %}">ورود به حساب کاربری</a>
+                            </div>
+                        {% endif %}
+
+                    {% endif %}
+
+                    <br>
+                    <hr>
+                </div>
+                {% if post_setting.comment %}
+                    <div class="h-auto w-100" id="comments">
+                            {% for comment in comments %}
+                                <div class="mb-4">
+                                    <!-- <img src="la.jpg" style="border-radius: 50%; width: 30px; height: 30px;">  -->
+                                    <a href="#"
+                                       style="display: inline;color: #4e555b;text-decoration: none">{{ comment.author.full_name }}</a>
+                                    <span>//</span>
+                                    <a href="#"
+                                       style="display: inline;color: #4e555b;text-decoration: none;"> {{ comment.create_at }}</a>
+                                    <p>{{ comment.content }}</p>
+                                    {% if request.user.is_authenticated %}
+                                        <button class="btn" onclick="comment_like({{ comment.id }},true)" style="border: none;background-color: transparent"><i class="fas fa-thumbs-down" style="color: green;"></i></button>
+                                        <span id="{{ comment.id }}">{{ comment.like_count }} </span>
+                                        <button class="btn" onclick="comment_like({{ comment.id }},false)" style="border: none;background-color: transparent"><i class="fas fa-thumbs-down" style="color: red;"></i></button>
+                                        <span id="d{{ comment.id }}">{{ comment.dislike_count }} </span>
+
+                                    {% endif %}
+
+                                </div>
+                                <!-- for comments -->
+                            {% endfor %}
+                    </div>
+
+                {% endif %}
+                <!-- for comments -->
+            </div>
+            <div class="d-none d-lg-block col-3 p-0 m-0">
+                <img class="mt-2"
+                     src="https://cdn01.zoomit.ir/2020/11/banner-xvision-campain-rang-500x250px-s-990904.gif"
+                     style="width: 100%; height: 500px;">
+                <img class="mt-2" src="https://cdn01.zoomit.ir/2020/9/aminsahm.gif" style="width: 100%;height: 250px;">
+                <img class="mt-2" src="https://cdn01.zoomit.ir/2020/10/banner-nexfon-300.250.gif"
+                     style="width: 100%;height: 250px;">
+                <img class="mt-2" src="https://cdn01.zoomit.ir/2020/11/banner-cyber-monday-egard-300x250.gif"
+                     style="width: 100%;height: 250px;">
+                <img class="mt-2" src="https://cdn01.zoomit.ir/2020/11/banner-cyber-monday-egard-300x250.gif"
+                     style="width: 100%;height: 250px;">
+                <img class="mt-2" src="https://cdn01.zoomit.ir/2020/11/banner-cyber-monday-egard-300x250.gif"
+                     style="width: 100%;height: 250px;">
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block javascript %}
+    <script>
+        function comment_like(commentId, condition) {
+            const data = JSON.stringify({comment_id: commentId, condition: condition})
+
+            $.ajax({
+                type: 'post',
+                url: "{% url 'like_comment' %}",
+                data: data,
+                success: function (response) {
+                    const data = JSON.parse(response)
+                    var like = '#' + data.id
+                    var dislike = '#d' + data.id
+                    console.log(like)
+                    $(like).text(data['like_count'])
+                    $(dislike).text(data['dislike_count'])
+
+
+                }
+            });
+        }
+
+
+        function create_comment(postId, content) {
+            const data = JSON.stringify({post_id: postId, content: content})
+
+            $.ajax({
+                type: 'post',
+                url: "{% url 'comment_create' %}",
+                data: data,
+                success: function (response) {
+                    const data = JSON.parse(response)
+                    console.log(data)
+                    $('#comment_count').text(data['comment_count'])
+                    $('#comments').prepend(`<div class="mb-4">
+                                    <!-- <img src="la.jpg" style="border-radius: 50%; width: 30px; height: 30px;">  -->
+                                    <a href="#"
+                                       style="display: inline;color: #4e555b;text-decoration: none">${data['author']}</a>
+                                    <span>//</span>
+                                    <a href="#"
+                                       style="display: inline;color: #4e555b;text-decoration: none"> ${data['create_at']}</a>
+                                    <p>${data['content']}</p>
+                                    {% if request.user.is_authenticated %}
+                                        <button class="btn" onclick="comment_like(${data['comment_id']},${true})" style="border: none;background-color: transparent"><i class="fas fa-thumbs-down" style="color: green;"></i></button>
+                                        <span id="${data['comment_id']}">${data['like_count']} </span>
+                                        <button class="btn" onclick="comment_like(${data['comment_id']},${false})" style="border: none;background-color: transparent"><i class="fas fa-thumbs-down" style="color: red;"></i></button>
+                                        <span id="d${data['comment_id']}">${data['dislike_count']} </span>
+
+                                    {% endif %}
+
+                                </div>`)
+                    document.getElementById("content").value = "";
+
+
+
+
+
+                }
+            });
+        }
+
+
+    </script>
+{% endblock %}
+
+
+
+
+
+                                        {#                        <div class="d-flex flex-row" style="width: 500px;">#}
+                                        {#                            <form action="{% url 'like_comment'%}" method="post">#}
+                                        {#                                {% csrf_token %}#}
+                                        {#                                <button type="submit" style="border: none;background-color: transparent"><i class="fas fa-thumbs-up" style="color: green;"></i></button>#}
+                                        {#                                <input type="hidden" name="condition"  value='1'>#}
+                                        {#                                <input type="hidden" name="comment" value="{{ comment.id }}">#}
+                                        {#                                <input type="hidden" name="post_slug" value="{{ post.slug}}">#}
+                                        {#                                {% csrf_token %}#}
+                                        {#                            </form>#}
+                                        {#                            <span>{{ comment.like_count }} </span>#}
+                                        {#                            <form action="{% url 'like_comment' %}" method="post">#}
+                                        {#                                {% csrf_token %}#}
+                                        {#                                <button type="submit" style="border: none;background-color: transparent"><i class="fas fa-thumbs-down" style="color: red;"></i></button>#}
+                                        {#                                <input type="hidden" name="condition"  value='0'>#}
+                                        {#                                <input type="hidden" name="comment" value="{{ comment.id }}">#}
+                                        {#                                <input type="hidden" name="post_slug" value="{{ post.slug}}">#}
+                                        {#                                {% csrf_token %}#}
+                                        {##}
+                                        {#                            </form>#}
+                                        {#                            <span>{{ comment.dislike_count }} </span>#}
+                                        {#                        </div>#}
+                                        {#                    {% else %}#}
+                                        {#                        <div class="d-flex flex-row" style="width: 500px;">#}
+                                        {#                            <form action="{% url 'like_comment' %}" method="post">#}
+                                        {#                                {% csrf_token %}#}
+                                        {#                                <button type="submit" style="border: none;background-color: transparent" disabled><i class="fas fa-thumbs-up" style="color: green;"></i></button>#}
+                                        {#                                <input type="hidden" name="condition"  style="display: none" value='1'>#}
+                                        {#                                <input type="hidden" name="comment" value="{{ comment.id }}">#}
+                                        {#                                <input type="hidden" name="post_slug" value="{{ post.slug}}">#}
+                                        {#                                {% csrf_token %}#}
+                                        {#                            </form>#}
+                                        {#                            <span>{{ comment.like_count }} </span>#}
+                                        {#                            <form action="{% url 'like_comment' %}" method="post">#}
+                                        {#                                {% csrf_token %}#}
+                                        {#                                <button type="submit" style="border: none;background-color: transparent" disabled><i class="fas fa-thumbs-down" style="color: red;"></i></button>#}
+                                        {#                                <input type="hidden" name="condition" checked  style="display: none" value='0'>#}
+                                        {#                                <input type="hidden" name="comment" value="{{ comment.id }}">#}
+                                        {#                                <input type="hidden" name="post_slug" value="{{ post.slug}}">#}
+                                        {#                                {% csrf_token %}#}
+                                        {##}
+                                        {#                            </form>#}
+                                        {#                            <span>{{ comment.dislike_count }} </span>#}
+                                        {#                        </div>#}
+
