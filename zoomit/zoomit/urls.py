@@ -20,9 +20,8 @@ from django.conf.urls.static import static
 
 from rest_framework import routers
 
-# router = routers.DefaultRouter()
-#
-# router.register(r'users', UserViewSet)
+router = routers.DefaultRouter()
+
 
 urlpatterns = [
                   path('admin/', admin.site.urls),
@@ -30,5 +29,6 @@ urlpatterns = [
                   path('', include('account.urls')),
                   # path('api/', include(router.urls)),
                   # path('api-auth/', include('rest_framework.urls'))
+                  path('json/', include(router.urls)),
               ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL,
                                                                                            document_root=settings.MEDIA_ROOT)

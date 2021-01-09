@@ -1,7 +1,7 @@
 from abc import ABC
 
 from rest_framework import serializers
-from .models import Post, User, Comment
+from .models import Post, User, Comment,Category,CommentLike,PostSetting
 from account.serializer import UserSerializer
 
 
@@ -36,4 +36,16 @@ class CommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Comment
+        fields = '__all__'
+
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = '__all__'
+
+
+class PostSettingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PostSetting
         fields = '__all__'

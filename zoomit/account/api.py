@@ -9,7 +9,12 @@ from rest_framework.viewsets import ModelViewSet
 from .serializer import UserSerializer
 from blog.models import User
 from rest_framework import generics
+from rest_framework.viewsets import ModelViewSet
 
+
+class UserViewSet(ModelViewSet):
+    serializer_class = UserSerializer
+    queryset = User.objects.all()
 
 # class UserViewSet(ModelViewSet):
 #     queryset = User.objects.all()
