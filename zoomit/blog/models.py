@@ -30,7 +30,7 @@ class Post(models.Model):
     category = models.ForeignKey(Category, verbose_name=_("Category"), on_delete=models.SET_NULL, related_name='posts',
                                  null=True, blank=True)
     author = models.ForeignKey(User, verbose_name=_("Author"), related_name='Posts', related_query_name='children',
-                               on_delete=models.CASCADE)
+                               on_delete=models.PROTECT)
 
     class Meta:
         verbose_name = _("Post")

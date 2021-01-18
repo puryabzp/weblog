@@ -12,11 +12,19 @@ from django.http import Http404
 from rest_framework import mixins
 from rest_framework import generics
 from rest_framework.viewsets import ModelViewSet
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.permissions import IsAuthenticated,IsAuthenticatedOrReadOnly
+from .permissions import IsPostAuthorOrReadOnly
 
 
 class PostViewSet(ModelViewSet):
     serializer_class = PostSerializer
     queryset = Post.objects.all()
+    # authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    # def get_queryset(self):
+    #     return Post.objects.filter(author=self.request.user)
 
     @action(detail=True, methods=['GET'])
     def comments(self, request, pk=None):
@@ -35,8 +43,8 @@ class PostViewSet(ModelViewSet):
 
     @action(detail=False, methods=['GET'])
     def get_published(self, request):
-        queryset=self.filter_queryset(self.get_queryset())
-        queryset=queryset.filter(draft=False)
+        queryset = self.filter_queryset(self.get_queryset())
+        queryset = queryset.filter(draft=False)
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True)
