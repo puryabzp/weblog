@@ -17,11 +17,12 @@ from rest_framework.permissions import IsAuthenticated,IsAuthenticatedOrReadOnly
 from .permissions import IsPostAuthorOrReadOnly
 
 
+
 class PostViewSet(ModelViewSet):
     serializer_class = PostSerializer
     queryset = Post.objects.all()
     # authentication_classes = [SessionAuthentication, BasicAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsPostAuthorOrReadOnly]
 
     # def get_queryset(self):
     #     return Post.objects.filter(author=self.request.user)
