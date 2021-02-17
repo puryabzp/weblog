@@ -10,11 +10,15 @@ from .serializer import UserSerializer
 from blog.models import User
 from rest_framework import generics
 from rest_framework.viewsets import ModelViewSet
+from rest_framework.response import Response
+from rest_framework.throttling import UserRateThrottle
+from rest_framework.views import APIView
 
 
 class UserViewSet(ModelViewSet):
     serializer_class = UserSerializer
     queryset = User.objects.all()
+
 
 # class UserViewSet(ModelViewSet):
 #     queryset = User.objects.all()
@@ -82,3 +86,5 @@ def user_details(request, pk):
     elif request.method == 'DELETE':
         user.delete()
         return HttpResponse(status=204)
+
+

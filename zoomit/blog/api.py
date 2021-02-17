@@ -1,9 +1,11 @@
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
-from rest_framework.decorators import action
-from .serializer import PostSerializer, CommentSerializer,CategorySerializer,PostSettingSerializer
-from .models import Post, Comment,Category,PostSetting
+from rest_framework.decorators import action, throttle_classes
+from rest_framework.throttling import UserRateThrottle, AnonRateThrottle
+
+from .serializer import PostSerializer, CommentSerializer, CategorySerializer, PostSettingSerializer
+from .models import Post, Comment, Category, PostSetting
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
@@ -13,16 +15,17 @@ from rest_framework import mixins
 from rest_framework import generics
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
-from rest_framework.permissions import IsAuthenticated,IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from .permissions import IsPostAuthorOrReadOnly
-
+from rest_framework.settings import api_settings
 
 
 class PostViewSet(ModelViewSet):
     serializer_class = PostSerializer
     queryset = Post.objects.all()
-    # authentication_classes = [SessionAuthentication, BasicAuthentication]
-    permission_classes = [IsPostAuthorOrReadOnly]
+    throttle_classes = [UserRateThrottle]
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated]
 
     # def get_queryset(self):
     #     return Post.objects.filter(author=self.request.user)
@@ -62,11 +65,14 @@ class CommentViewSet(ModelViewSet):
 class CategoryViewSet(ModelViewSet):
     serializer_class = CategorySerializer
     queryset = Category.objects.all()
+    throttle_classes = [UserRateThrottle]
 
 
 class PostSettingViewSet(ModelViewSet):
+    throttle_classes = [UserRateThrottle]
     serializer_class = PostSettingSerializer
     queryset = PostSetting.objects.all()
+
 
 # class PostListApiView(generics.ListCreateAPIView):
 #     serializer_class = PostSerializer
@@ -89,9 +95,8 @@ class PostSettingViewSet(ModelViewSet):
 #         return self.create(request, *args, **kwargs)
 #
 #
-# class PostDetailMixin(mixins.RetrieveModelMixin, mixins.DestroyModelMixin, mixins.UpdateModelMixin, generics.GenericAPIView):
-#     serializer_class = PostSerializer
-#     queryset = Post.objects.all()
+# class PostDetailMixin(mixins.RetrieveModelMixin, mixins.DestroyModelMixin, mixins.UpdateModelMixin,
+# generics.GenericAPIView): serializer_class = PostSerializer queryset = Post.objects.all()
 #
 #     def get(self, request, *args, **kwargs):
 #         return self.retrieve(request, *args, **kwargs)
@@ -184,3 +189,22 @@ def comment_detail(request, pk):
     elif request.method == 'DELETE':
         comment.delete()
         return HttpResponse(status=204)
+
+
+@api_view(['GET'])
+@throttle_classes([UserRateThrottle, AnonRateThrottle])
+def respina_view(request, format=None):
+    if request.user.is_anonymous:
+        content = {
+            'status': 'request isnt authenticated',
+
+        }
+        return Response(content)
+    elif request.user.is_authenticated:
+        content = {
+            'status': 'request user is authenticated',
+            'user_id': request.user.id,
+            'user': request.user.email
+
+        }
+        return Response(content)

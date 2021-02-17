@@ -77,7 +77,7 @@ class RegistrationForm(forms.ModelForm):
     def clean_email(self):
         email = self.cleaned_data.get('email')
         try:
-            User.objects.get(email=email)
+            get(email=email)
             raise ValidationError(_(f'کاربری با ایمیل   {email}  در حاضر عضو میباشد ایمیل دیگری وارد نمایید'))
         except User.DoesNotExist:
             pass
@@ -86,7 +86,7 @@ class RegistrationForm(forms.ModelForm):
     def clean_full_name(self):
         full_name = self.cleaned_data.get('full_name')
         try:
-            User.objects.get(full_name=full_name)
+            get(full_name=full_name)
             raise ValidationError(_(f'کاربری با نام  {full_name}  موجود است'))
         except User.DoesNotExist:
             pass

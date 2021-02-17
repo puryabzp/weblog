@@ -52,8 +52,3 @@ And if the number of requests exceeds the allowable limit, the user will be limi
 
 ***
 For a better explanation,I have put pictures of the steps in a directory called respina_challenge
-
-
-
-
-	
